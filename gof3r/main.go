@@ -38,12 +38,12 @@ import (
 	"time"
 
 	"github.com/jessevdk/go-flags"
-	"github.com/rlmcpherson/s3gof3r"
+	"github.com/ady1981/s3gof3r"
 )
 
 const (
 	name    = "gof3r"
-	version = "0.5.0"
+	version = "0.6.0a"
 )
 
 func main() {
@@ -92,6 +92,12 @@ func getAWSKeys() (keys s3gof3r.Keys, err error) {
 	if err == nil {
 		return
 	}
+	fmt.Fprintf(os.Stderr, "gof3r info: try ECSKeys\n")
+	keys, err = s3gof3r.ECSKeys()
+	if err == nil {
+		return
+	}
+	fmt.Fprintf(os.Stderr, "gof3r info: try InstanceKeys\n")
 	keys, err = s3gof3r.InstanceKeys()
 	if err == nil {
 		return
